@@ -1,67 +1,21 @@
 {
     "name": "wind-framework/example",
     "require": {
-        "wind-framework/cache": "*",
-        "wind-framework/collector": "*",
-        "wind-framework/crontab": "*",
-        "wind-framework/db": "*",
-        "wind-framework/log": "*",
-        "wind-framework/queue": "*",
-        "wind-framework/redis": "*",
-        "wind-framework/view": "*",
+        "wind-framework/cache": "@dev",
+        "wind-framework/collector": "@dev",
+        "wind-framework/crontab": "@dev",
+        "wind-framework/db": "@dev",
+        "wind-framework/log": "@dev",
+        "wind-framework/queue": "@dev",
+        "wind-framework/redis": "@dev",
+        "wind-framework/view": "@dev",
         "amphp/http-client": "^4.5",
-        "wind-framework/web": "*",
+        "wind-framework/web": "@dev",
         "twig/twig": "^3.2"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/"
         }
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../"
-        },
-        {
-            "type": "path",
-            "url": "../beanstalk"
-        },
-        {
-            "type": "path",
-            "url": "../cache"
-        },
-        {
-            "type": "path",
-            "url": "../collector"
-        },
-        {
-            "type": "path",
-            "url": "../crontab"
-        },
-        {
-            "type": "path",
-            "url": "../db"
-        },
-        {
-            "type": "path",
-            "url": "../log"
-        },
-        {
-            "type": "path",
-            "url": "../queue"
-        },
-        {
-            "type": "path",
-            "url": "../redis"
-        },
-        {
-            "type": "path",
-            "url": "../view"
-        },
-        {
-            "type": "path",
-            "url": "../web"
-        }
-    ]
+    }
 }

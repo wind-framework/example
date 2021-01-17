@@ -1,21 +1,23 @@
 {
     "name": "wind-framework/example",
     "require": {
-        "wind-framework/cache": "@dev",
-        "wind-framework/collector": "@dev",
-        "wind-framework/crontab": "@dev",
-        "wind-framework/db": "@dev",
-        "wind-framework/log": "@dev",
-        "wind-framework/queue": "@dev",
-        "wind-framework/redis": "@dev",
-        "wind-framework/view": "@dev",
+        "wind-framework/cache": "*",
+        "wind-framework/collector": "*",
+        "wind-framework/crontab": "*",
+        "wind-framework/db": "*",
+        "wind-framework/log": "*",
+        "wind-framework/queue": "*",
+        "wind-framework/redis": "*",
+        "wind-framework/view": "*",
         "amphp/http-client": "^4.5",
-        "wind-framework/web": "@dev",
+        "wind-framework/web": "*",
         "twig/twig": "^3.2"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/"
         }
-    }
+    },
+    "minimum-stability" : "dev",
+    "prefer-stable" : true
 }

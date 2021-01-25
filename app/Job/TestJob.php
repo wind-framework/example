@@ -21,8 +21,16 @@ class TestJob extends Job
     {
         echo "Handle job get value: {$this->value}\n";
         yield delay(2000);
-        // throw new \Exception("Error example.");
+        throw new \Exception("Error example.");
         echo "---END---\r\n";
+    }
+
+    public function fail($message, $ex)
+    {
+        echo "\n\n\n";
+        echo $ex->getMessage();
+        echo "\n\n\n";
+        return false;
     }
 
 }

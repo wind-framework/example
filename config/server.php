@@ -18,8 +18,14 @@ return [
         'document_root' => BASE_DIR.'/static',
         'enable_negotiation_cache' => true
     ],
+    /**
+     * Channel 服务配置
+     * addr 默认为 TCP 通讯方式，绑定地址为 127.0.0.1，可指定为 unix:// 通信方式
+     * port 为当使用 TCP 通讯方式时使用的端口
+     */
     'channel' => [
         'enable' => true,
+        'addr' => 'unix://'.sys_get_temp_dir().'/wind-'.substr(uniqid(), -8).'.sock',
         'port' => 2206
     ],
     /**

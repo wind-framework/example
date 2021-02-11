@@ -25,8 +25,8 @@ return [
      */
     'channel' => [
         'enable' => true,
-        'addr' => 'unix://'.sys_get_temp_dir().'/wind-'.substr(uniqid(), -8).'.sock',
-        'port' => 2206
+        'addr' => 'unix:///tmp/wind-'.substr(uniqid(), -8).'.sock',
+        //'port' => 2206
     ],
     /**
      * Task Worker 配置

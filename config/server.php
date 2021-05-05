@@ -3,6 +3,12 @@
 return [
     /**
      * 内置 Server 配置
+     *
+     * 支持参数：
+     * listen: 监听配置，指定 IP与端口，如 127.0.0.1:8080
+     * worker_num: 工作进程数量，默认为 1
+     * type: 服务器类型，目前仅支持 http
+     * reuse_port: 端口复用开关，默认为 false
      */
     'servers' => [
         /**
@@ -11,7 +17,8 @@ return [
         [
             'listen' => '0.0.0.0:2345',
             'worker_num' => 2,
-            'type' => 'http'
+            'type' => 'http',
+            'reuse_port' => false
         ]
     ],
     'static_file' => [
@@ -37,5 +44,12 @@ return [
          * 为 0 时将不启动任何 Task Worker 进程
          */
         'worker_num' => 2
-    ]
+    ],
+    /**
+     * JSON 选项
+     *
+     * 服务器会对输出的数组等进行默认 JSON 转换输出，此选项设定默认 JSON 转换时的选项。
+     * 参考 json_encode() 函数
+     */
+    'json_options' => JSON_UNESCAPED_UNICODE
 ];

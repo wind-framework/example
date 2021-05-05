@@ -14,6 +14,7 @@ use Wind\Queue\QueueFactory;
 use Wind\Task\Task;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
+use Wind\Web\RequestInterface;
 use Workerman\Protocols\Http\Request;
 
 class TestController extends \Wind\Web\Controller
@@ -25,7 +26,7 @@ class TestController extends \Wind\Web\Controller
 		$this->invoker = $invoker;
 	}
 
-    public function taskCall()
+    public function taskCall(RequestInterface $request)
 	{
 		$a = [
 		    Task::execute([$this->invoker, 'getCache'], 'ABCDEFG'),
@@ -34,7 +35,7 @@ class TestController extends \Wind\Web\Controller
 
 		$b = yield Promise\all($a);
 
-		return json_encode($b);
+		return $b;
 	}
 
 	public function request(Request $req, $id, ContainerInterface $container, CacheInterface $cache)

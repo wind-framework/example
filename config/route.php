@@ -14,7 +14,7 @@ return function(RouteCollector $r) {
 	$r->addRoute('GET', '/phpinfo', 'App\Controller\IndexController::phpinfo');
 
 	$r->addGroup('/test/', function(RouteCollector $r) {
-		$r->addRoute('GET', 'task', 'App\Controller\TestController::taskCall');
+		$r->get('task', 'App\Controller\TestController::taskCall');
 		$r->addRoute('GET', 'request/{id:\d}', 'App\Controller\TestController::request');
 		$r->addRoute(['GET', 'POST'], 'closure', function(\Workerman\Protocols\Http\Request $req) {
 			return $req->uri();
@@ -22,7 +22,10 @@ return function(RouteCollector $r) {
 		
 		$r->addRoute('GET', 'queue', 'App\Controller\TestController::queue');
 		$r->addRoute('GET', 'http', 'App\Controller\TestController::http');
-		$r->addRoute('GET', 'log', 'App\Controller\TestController::log');
+		$r->get('log', 'App\Controller\TestController::log');
+		$r->get('file', 'App\Controller\TestController::sendFile');
+		$r->post('upload', 'App\Controller\TestController::uploadFile');
+		$r->get('client-ip', 'App\Controller\TestController::clientIp');
 	});
 
 	$r->addRoute('GET', '/static/{filename:.+}', '\Wind\Web\FileServer::sendStatic');

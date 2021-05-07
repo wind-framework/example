@@ -1,5 +1,76 @@
 <?php
-use \FastRoute\RouteCollector;
+use FastRoute\RouteCollector;
+use Wind\Web\Route;
+
+/**
+ * groups[]
+ * - namespaces
+ * - prefix
+ * - middleware
+ * - middlewares
+ * - routes
+ *    - name
+ *    - middleware
+ *    - middlewares
+ *    - handler
+ */
+$routes = [
+    //app group
+    [
+        'namespaces' => 'App\Controller',
+        'routes' => [
+            'get /' => 'IndexController::index',
+            'get /gc-status' => 'IndexController::gcStatus',
+            'get /gc-recycle' => 'IndexController::gcRecycle',
+            'get /cache' => 'IndexController::cache',
+            'get /soul' => 'IndexController::soul',
+            'get /soul/{id:\d+}' => 'DbController::soulFind',
+            'get /db/concurrent' => 'DbController::concurrent',
+            'get /sleep' => 'IndexController::sleep',
+            'get /block' => 'IndexController::block',
+            'get /exception' => 'IndexController::exception',
+            'get /phpinfo' => 'IndexController::phpinfo',
+        ],
+        'groups' => [
+            //test group (group can also have a key name)
+            'g1' => [
+                'prefix' => '/test',
+                'middlewares' => [\App\Middleware\TestMiddleware::class],
+                'routes' => [
+                    'get task' => 'TestController::taskCall',
+                    'get /cache' => [
+                        'name' => 'test.cache',
+                        'middleware' => \Wind\Web\Middleware\EmptyMiddleware::class,
+                        'handler' => 'TestController::newRoute'
+                    ],
+                    'get|post closure' => function(\Workerman\Protocols\Http\Request $req) {
+                        return $req->uri();
+                    },
+                    'get queue' => 'TestController::queue',
+                    'get http' => 'TestController::http',
+                    'get log' => 'TestController::log',
+                    'get file' => 'TestController::sendFile',
+                    'post upload' => 'TestController::uploadFile',
+                    'get client-ip' => 'TestController::clientIp'
+                ]
+            ],
+            //g2 group
+            [
+                'prefix' => 'g2'
+            ]
+        ]
+    ],
+
+    //static group
+    [
+        'namespaces' => 'Wind\Web',
+        'routes' => [
+            'get /static/{filename:.+}' => 'FileServer::sendStatic',
+            'get /{filename:favicon\.ico}' => 'FileServer::sendStatic'
+        ]
+    ]
+];
+
 return function(RouteCollector $r) {
 	$r->addRoute('GET', '/', 'App\Controller\IndexController::index');
 	$r->addRoute('GET', '/cache', 'App\Controller\IndexController::cache');

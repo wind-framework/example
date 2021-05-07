@@ -10,7 +10,7 @@ use Wind\Collector\Collector;
 use Wind\Utils\FileUtil;
 use Wind\View\ViewInterface;
 use Psr\SimpleCache\CacheInterface;
-use Workerman\Protocols\Http\Response;
+use Wind\Web\Response;
 use function Amp\delay;
 
 class IndexController extends Controller
@@ -83,7 +83,7 @@ class IndexController extends Controller
     public function gcRecycle()
     {
     	$info = yield Collector::get(GcRecycle::class);
-    	return new Response(302, ['Location'=>'/gc-status']);
+    	return new Response(302, '', ['Location'=>'/gc-status']);
     }
 
     public function phpinfo()

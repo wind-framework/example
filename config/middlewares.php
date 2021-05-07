@@ -1,4 +1,4 @@
 <?php
 return [
-    \Wind\Web\Middleware\EmptyMiddleware::class
+    \App\Middleware\TestMiddleware::class
 ];

@@ -15,58 +15,60 @@ use Wind\Task\Task;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Wind\Web\RequestInterface;
+use Wind\Web\Response;
 use Workerman\Protocols\Http\Request;
 
 class TestController extends \Wind\Web\Controller
 {
 
-	public $invoker;
+    public $invoker;
 
-	public function __construct(Invoker $invoker) {
-		$this->invoker = $invoker;
-	}
+    public function __construct(Invoker $invoker)
+    {
+        $this->invoker = $invoker;
+    }
 
-    public function taskCall(RequestInterface $request)
-	{
-		$a = [
-		    Task::execute([$this->invoker, 'getCache'], 'ABCDEFG'),
-		    compute([$this->invoker, 'someBlock'], 'ABCDEFG')
+    public function taskCall()
+    {
+        $a = [
+            Task::execute([$this->invoker, 'getCache'], 'ABCDEFG'),
+            compute([$this->invoker, 'someBlock'], 'ABCDEFG')
         ];
 
-		$b = yield Promise\all($a);
+        $b = yield Promise\all($a);
 
-		return $b;
-	}
+        return $b;
+    }
 
-	public function request(Request $req, $id, ContainerInterface $container, CacheInterface $cache)
+    public function request(Request $req, $id, ContainerInterface $container, CacheInterface $cache)
     {
         $hello = $container->get(Config::class)->get('components')[0];
-        return 'Request, id='.$id.', name='.$req->get('name').(yield $cache->get('abc', 'def')).$hello;
-	}
-	
-	public function queue(QueueFactory $factory)
-	{
-	    $queue = $factory->get('default');
-		$ret = [];
+        return 'Request, id=' . $id . ', name=' . $req->get('name') . (yield $cache->get('abc', 'def')) . $hello;
+    }
 
-		$job = new TestJob('Hello World [Low Priority] '.date('Y-m-d H:i:s'));
-		$ret[] = yield $queue->put($job, 2, Queue::PRI_LOW);
+    public function queue(QueueFactory $factory)
+    {
+        $queue = $factory->get('default');
+        $ret = [];
 
-		$job = new TestJob('Hello World [Normal Priority] '.date('Y-m-d H:i:s'));
-		$ret[] = yield $queue->put($job, 2);
+        $job = new TestJob('Hello World [Low Priority] ' . date('Y-m-d H:i:s'));
+        $ret[] = yield $queue->put($job, 2, Queue::PRI_LOW);
 
-		$job = new TestJob('Hello World [High Priority] '.date('Y-m-d H:i:s'));
-		$ret[] = yield $queue->put($job, 2, Queue::PRI_HIGH);
+        $job = new TestJob('Hello World [Normal Priority] ' . date('Y-m-d H:i:s'));
+        $ret[] = yield $queue->put($job, 2);
 
-		yield $queue->delete($ret[1]);
-		
-		return json_encode($ret);
-	}
+        $job = new TestJob('Hello World [High Priority] ' . date('Y-m-d H:i:s'));
+        $ret[] = yield $queue->put($job, 2, Queue::PRI_HIGH);
 
-	public function http()
+        yield $queue->delete($ret[1]);
+
+        return json_encode($ret);
+    }
+
+    public function http()
     {
         $client = HttpClientBuilder::buildDefault();
-	    $request = new HttpRequest('http://pv.sohu.com/cityjson?ie=utf-8');
+        $request = new HttpRequest('http://pv.sohu.com/cityjson?ie=utf-8');
 
         $response = yield $client->request($request);
 
@@ -80,7 +82,7 @@ class TestController extends \Wind\Web\Controller
             $data = json_decode($json, true);
             return "<p>IP：{$data['cip']}</p><p>Location：{$data['cname']}</p>";
         } else {
-            return 'Request '.$status.' Error!';
+            return 'Request ' . $status . ' Error!';
         }
     }
 
@@ -103,4 +105,24 @@ class TestController extends \Wind\Web\Controller
         di()->get(LogFactory::class)->get()->info("Log in task");
     }
 
+    public static function clientIp(RequestInterface $request)
+    {
+        return 'Your IP Address is: ' . $request->getClientIp();
+    }
+
+    public function uploadFile(RequestInterface $request)
+    {
+        $u = $request->getUploadedFile('test');
+
+        $to = RUNTIME_DIR . '/test-' . uniqid() . '.jpg';
+        $u->moveTo($to);
+
+        return (new Response())->withHeader('X-Workerman-Sendfile', $to);
+    }
+
+    public function sendFile()
+    {
+        return (new Response())
+            ->withHeader('X-Workerman-Sendfile', BASE_DIR . '/static/workerman_logo.png');
+    }
 }

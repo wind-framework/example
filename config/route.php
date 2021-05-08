@@ -1,10 +1,10 @@
 <?php
 use FastRoute\RouteCollector;
-use Wind\Web\Route;
+use Wind\Web\Router;
 
 /**
  * groups[]
- * - namespaces
+ * - namespace
  * - prefix
  * - middleware
  * - middlewares
@@ -17,7 +17,7 @@ use Wind\Web\Route;
 $routes = [
     //app group
     [
-        'namespaces' => 'App\Controller',
+        'namespace' => 'App\Controller',
         'routes' => [
             'get /' => 'IndexController::index',
             'get /gc-status' => 'IndexController::gcStatus',
@@ -40,8 +40,8 @@ $routes = [
                     'get task' => 'TestController::taskCall',
                     'get /cache' => [
                         'name' => 'test.cache',
-                        'middleware' => \Wind\Web\Middleware\EmptyMiddleware::class,
-                        'handler' => 'TestController::newRoute'
+                        'middleware' => \App\Middleware\TestMiddleware::class,
+                        'handler' => 'TestController::clientIp'
                     ],
                     'get|post closure' => function(\Workerman\Protocols\Http\Request $req) {
                         return $req->uri();
@@ -63,7 +63,7 @@ $routes = [
 
     //static group
     [
-        'namespaces' => 'Wind\Web',
+        'namespace' => 'Wind\Web',
         'routes' => [
             'get /static/{filename:.+}' => 'FileServer::sendStatic',
             'get /{filename:favicon\.ico}' => 'FileServer::sendStatic'
@@ -71,6 +71,9 @@ $routes = [
     ]
 ];
 
+return $routes;
+
+/*
 return function(RouteCollector $r) {
 	$r->addRoute('GET', '/', 'App\Controller\IndexController::index');
 	$r->addRoute('GET', '/cache', 'App\Controller\IndexController::cache');
@@ -102,3 +105,5 @@ return function(RouteCollector $r) {
 	$r->addRoute('GET', '/static/{filename:.+}', '\Wind\Web\FileServer::sendStatic');
 	$r->addRoute('GET', '/{filename:favicon\.ico}', '\Wind\Web\FileServer::sendStatic');
 };
+
+*/

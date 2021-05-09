@@ -6,11 +6,9 @@ use Wind\Web\Router;
  * groups[]
  * - namespace
  * - prefix
- * - middleware
  * - middlewares
  * - routes
  *    - name
- *    - middleware
  *    - middlewares
  *    - handler
  */
@@ -23,7 +21,7 @@ $routes = [
             'get /gc-status' => 'IndexController::gcStatus',
             'get /gc-recycle' => 'IndexController::gcRecycle',
             'get /cache' => 'IndexController::cache',
-            'get /soul' => 'IndexController::soul',
+            'get /soul' => 'DbController::soul',
             'get /soul/{id:\d+}' => 'DbController::soulFind',
             'get /db/concurrent' => 'DbController::concurrent',
             'get /sleep' => 'IndexController::sleep',
@@ -38,9 +36,9 @@ $routes = [
                 'middlewares' => [\App\Middleware\TestMiddleware::class],
                 'routes' => [
                     'get task' => 'TestController::taskCall',
-                    'get /cache' => [
+                    'get client-ip' => [
                         'name' => 'test.cache',
-                        'middleware' => \App\Middleware\TestMiddleware::class,
+                        'middlewares' => [\App\Middleware\TestMiddleware::class],
                         'handler' => 'TestController::clientIp'
                     ],
                     'get|post closure' => function(\Workerman\Protocols\Http\Request $req) {
@@ -50,8 +48,7 @@ $routes = [
                     'get http' => 'TestController::http',
                     'get log' => 'TestController::log',
                     'get file' => 'TestController::sendFile',
-                    'post upload' => 'TestController::uploadFile',
-                    'get client-ip' => 'TestController::clientIp'
+                    'post upload' => 'TestController::uploadFile'
                 ]
             ],
             //g2 group

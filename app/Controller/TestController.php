@@ -17,6 +17,7 @@ use Psr\SimpleCache\CacheInterface;
 use Wind\Web\RequestInterface;
 use Wind\Web\Response;
 use Workerman\Protocols\Http\Request;
+use function Amp\delay;
 
 class TestController extends \Wind\Web\Controller
 {
@@ -30,14 +31,19 @@ class TestController extends \Wind\Web\Controller
 
     public function taskCall()
     {
-        $a = [
-            Task::execute([$this->invoker, 'getCache'], 'ABCDEFG'),
-            compute([$this->invoker, 'someBlock'], 'ABCDEFG')
-        ];
+        //$a = [
+        //    Task::execute([$this->invoker, 'getCache'], 'ABCDEFG'),
+        //    compute([$this->invoker, 'someBlock'], 'ABCDEFG')
+        //];
+        //
+        //$b = yield Promise\all($a);
 
-        $b = yield Promise\all($a);
+        $v = yield compute(function() {
+            yield delay(2000);
+            return 'Hello World '.time();
+        });
 
-        return $b;
+        return $v;
     }
 
     public function request(Request $req, $id, ContainerInterface $container, CacheInterface $cache)

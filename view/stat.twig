@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+<title>系统状态</title>
+<style type="text/css">
+html, body {margin:0; font-size:1rem;}
+th {background-color: #F0F0F0; border-bottom:1px solid #e4e3e3;}
+td {text-align: center;}
+th.l, td.l {text-align: left;}
+td.rs {background-color: #f3f3f3;}
+table {border-spacing:1px; width:80%; margin:0 auto; border:1px solid #CCC;}
+tbody tr:nth-child(even) td {background-color:#F7F5F5;}
+.desc {display:flex; flex-wrap: nowrap; justify-content: flex-start;}
+.desc p {margin: 0 0 3px;}
+.desc div {flex: 0 0 auto; margin: 10px;}
+ul {margin:2px 0 5px; padding: 0 0 0 15px;}
+a {text-decoration:none; display:inline-block; background-color:#efefef; border-radius:3px; color:#767f90; padding:0 2px; margin:0 2px;}
+a:hover {background-color:#e6e6f7; color:#5869e6;}
+a:active {background-color:#8686ff; color:#FFF;}
+h2 {text-align: center; background-color: #CCC; margin: 20px auto 5px; width: 300px;}
+i {color:#CCC}
+</style>
+</head>
+<body>
+
+{% if data.crontab %}
+<h2>Crontab</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th class="l">描述</th>
+            <th>任务规则</th>
+            <th>执行次数</th>
+            <th>上次执行时间</th>
+            <th>下次执行时间</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for key, item in data.crontab._ | first %}
+    <tr>
+        <td>{{key}}</td>
+        <td class="l">{{item.desc}}</td>
+        <td>{{ item.rule }}</td>
+        <td>{{ item.run_count}}</td>
+        <td>{% if item.last_run_at == 0 %}-{% else %}{{ item.last_run_at | date('Y-m-d H:i:s') }}{% endif %}</td>
+        <td>{{item.next_run_at | date('Y-m-d H:i:s') }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if data.queue_consumer_concurrent %}
+<h2>Queue Consumer</h2>
+
+{% for groupKey, groupItems in data.queue_consumer_concurrent %}
+{% set groupRows = false %}
+
+<table>
+    <thead>
+        <tr>
+            <th width="150">组</th>
+            <th width="150">PID</th>
+            <th>并发编号</th>
+            <th>当前任务</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for pid, item in groupItems %}
+        {% set pidRows = false %}
+        {% for concurrent, job in item %}
+        <tr>
+            {%- if not groupRows -%}
+                <td rowspan="{{ attribute(attribute(queueConsumerHelp, groupKey), 'group') }}" class="rs">{{groupKey}}</td>
+                {% set groupRows = true %}
+            {%- endif -%}
+            {%- if not pidRows -%}
+                <td rowspan="{{ attribute(attribute(queueConsumerHelp, groupKey), pid) }}" class="rs">{{pid}}</td>
+                {% set pidRows = true %}
+            {%- endif -%}
+            <td>{{ concurrent }}</td>
+            <td>{% if job is null %}<i>Idle</i>{% else %}[{{ job.id }}] {{ job.job }}{% endif %}</td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endfor %}
+{% endif %}
+
+</body>
+</html>

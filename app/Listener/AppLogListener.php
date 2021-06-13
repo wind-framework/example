@@ -51,8 +51,11 @@ class AppLogListener extends \Wind\Event\Listener
             if ($event->error || $event->state == QueueJobEvent::STATE_ERROR || $event->state == QueueJobEvent::STATE_FAILED) {
                 $level = Logger::ERROR;
             }
-        } elseif ($event instanceof SystemError || $event instanceof QueryError) {
+        } elseif ($event instanceof SystemError) {
             $level = Logger::ERROR;
+        } elseif ($event instanceof QueryError) {
+            $logger->log(Logger::ERROR, $event->exception->getMessage()."\r\n".$event->sql);
+            return;
         }
 
         $logger->log($level, $event->__toString());

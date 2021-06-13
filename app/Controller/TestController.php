@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use Amp\Deferred;
+use Amp\Http\Client\Connection\UnprocessedRequestException;
 use Amp\Http\Client\HttpClientBuilder;
+use Amp\Http\Client\HttpException as ClientHttpException;
 use Amp\Http\Client\Request as HttpRequest;
-use Amp\Promise;
 use App\Helper\Invoker;
 use App\Job\TestJob;
 use Wind\Base\Config;
@@ -14,9 +16,13 @@ use Wind\Queue\QueueFactory;
 use Wind\Task\Task;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
+use Wind\Base\Channel;
+use Wind\Utils\StrUtil;
+use Wind\View\ViewInterface;
 use Wind\Web\RequestInterface;
 use Wind\Web\Response;
 use Workerman\Protocols\Http\Request;
+
 use function Amp\delay;
 
 class TestController extends \Wind\Web\Controller
@@ -29,7 +35,7 @@ class TestController extends \Wind\Web\Controller
         $this->invoker = $invoker;
     }
 
-    public function taskCall()
+    public static function ex()
     {
         //$a = [
         //    Task::execute([$this->invoker, 'getCache'], 'ABCDEFG'),
@@ -44,6 +50,15 @@ class TestController extends \Wind\Web\Controller
         });
 
         return $v;
+        $previous = new ClientHttpException('Bad Request', 400);
+        throw new UnprocessedRequestException($previous);
+    }
+
+    public function taskCall()
+    {
+        $a = yield compute(self::class.'::'.'ex');
+
+        return $a;
     }
 
     public function request(Request $req, $id, ContainerInterface $container, CacheInterface $cache)
@@ -131,4 +146,37 @@ class TestController extends \Wind\Web\Controller
         return (new Response())
             ->withHeader('X-Workerman-Sendfile', BASE_DIR . '/static/workerman_logo.png');
     }
+
+    public function stat(Channel $channel, ViewInterface $view)
+    {
+        $id = StrUtil::randomString(16);
+
+        $defer = new Deferred;
+
+        $listen = 'wind.stat.return.'.$id;
+        $channel->on($listen, function($data) use ($defer, $channel, $listen) {
+            echo "Received $listen\n";
+            print_r($data);
+            $channel->unsubscribe($listen);
+            $defer->resolve($data);
+        });
+
+        $channel->publish('wind.stat.get', ['id'=>$id]);
+
+        $data = yield $defer->promise();
+
+        $queueConsumerHelp = [];
+
+        if (isset($data['queue_consumer_concurrent'])) {
+            foreach ($data['queue_consumer_concurrent'] as $group => $process) {
+                $queueConsumerHelp[$group]['group'] = array_sum(array_map('count', $process));
+                foreach ($process as $pid => $items) {
+                    $queueConsumerHelp[$group][$pid] = count($items);
+                }
+            }
+        }
+
+        return $view->render('stat.twig', compact('data', 'queueConsumerHelp'));
+    }
+
 }

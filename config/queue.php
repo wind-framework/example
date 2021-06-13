@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => [
+    'default2' => [
         'driver' => Wind\Queue\Driver\BeanstalkDriver::class,
         'host' => '192.168.4.2',
         'port' => 11300,
@@ -10,7 +10,7 @@ return [
         'processes' => 2,
         'concurrent' => 8
     ],
-    'default2' => [
+    'default' => [
         'driver' => Wind\Queue\Driver\RedisDriver::class,
         'key' => 'wind:queue',
         'processes' => 2,

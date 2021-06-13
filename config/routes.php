@@ -47,7 +47,9 @@ return [
                     'get http' => 'TestController::http',
                     'get log' => 'TestController::log',
                     'get file' => 'TestController::sendFile',
-                    'post upload' => 'TestController::uploadFile'
+                    'post upload' => 'TestController::uploadFile',
+                    'get db/insert' => 'DbController::insert',
+                    'get stat' => 'TestController::stat'
                 ]
             ],
             //g2 group

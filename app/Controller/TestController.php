@@ -17,6 +17,7 @@ use Wind\Task\Task;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Wind\Base\Channel;
+use Wind\Process\ProcessStat;
 use Wind\Utils\StrUtil;
 use Wind\View\ViewInterface;
 use Wind\Web\RequestInterface;
@@ -149,21 +150,7 @@ class TestController extends \Wind\Web\Controller
 
     public function stat(Channel $channel, ViewInterface $view)
     {
-        $id = StrUtil::randomString(16);
-
-        $defer = new Deferred;
-
-        $listen = 'wind.stat.return.'.$id;
-        $channel->on($listen, function($data) use ($defer, $channel, $listen) {
-            echo "Received $listen\n";
-            print_r($data);
-            $channel->unsubscribe($listen);
-            $defer->resolve($data);
-        });
-
-        $channel->publish('wind.stat.get', ['id'=>$id]);
-
-        $data = yield $defer->promise();
+        $data = yield ProcessStat::get();
 
         $queueConsumerHelp = [];
 

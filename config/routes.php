@@ -49,7 +49,8 @@ return [
                     'get file' => 'TestController::sendFile',
                     'post upload' => 'TestController::uploadFile',
                     'get db/insert' => 'DbController::insert',
-                    'get stat' => 'TestController::stat'
+                    'get stat' => 'TestController::stat',
+                    'get websocket' => 'TestController::websocket'
                 ]
             ],
             //g2 group

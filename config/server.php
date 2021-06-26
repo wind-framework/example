@@ -15,10 +15,17 @@ return [
          * Http 服务器
          */
         [
-            'listen' => '0.0.0.0:2345',
-            'worker_num' => 2,
             'type' => 'http',
+            'listen' => '0.0.0.0:2346',
+            'worker_num' => 2,
             'reuse_port' => false
+        ],
+        /**
+         * Websocket 服务器
+         */
+        [
+            'type' => 'websocket',
+            'listen' => '0.0.0.0:2347'
         ]
     ],
     'static_file' => [

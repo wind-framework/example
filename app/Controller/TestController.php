@@ -166,4 +166,9 @@ class TestController extends \Wind\Web\Controller
         return $view->render('stat.twig', compact('data', 'queueConsumerHelp'));
     }
 
+    public function websocket(ViewInterface $view)
+    {
+        return $view->render('websocket.twig');
+    }
+
 }

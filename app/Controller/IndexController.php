@@ -22,15 +22,16 @@ class IndexController extends Controller
 
     public function cache(CacheInterface $cache)
     {
-        $ret = yield $cache->get("lastvisit", "None");
+        $ret = $cache->get("lastvisit", "None");
 
-        yield $cache->setMultiple(['a'=>111, 'b'=>222, 'c'=>333]);
-        $b = yield $cache->getMultiple(['a', 'b', 'c', 'd']);
+        $cache->setMultiple(['a'=>111, 'b'=>222, 'c'=>333]);
+        $b = $cache->getMultiple(['a', 'b', 'c', 'd']);
+
+        $cache->set("lastvisit", ["last"=>date('Y-m-d H:i:s'), "timestamp"=>time()], 86400);
+
+        $b['lastvisit'] = $ret;
 
         return json_encode($b);
-
-        yield $cache->set("lastvisit", ["last"=>date('Y-m-d H:i:s'), "timestamp"=>time()], 86400);
-        return "get: ".print_r($ret, true);
     }
 
     public function sleep()

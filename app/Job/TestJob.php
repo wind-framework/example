@@ -28,7 +28,7 @@ class TestJob extends Job
     public function fail($message, $ex)
     {
         echo "\n\n\n";
-        echo $ex->getMessage();
+        // echo $ex->getMessage();
         echo "\n\n\n";
         return false;
     }

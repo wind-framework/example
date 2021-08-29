@@ -14,7 +14,7 @@ class TestMiddleware implements MiddlewareInterface
         /**
          * @var Response $response
          */
-        $response = yield $handler($request);
+        $response = $handler($request);
         return $response->withAddedHeader('X-Test', 'This is a test')
             ->withHeader('Server', 'Wind-Http-Server');
     }

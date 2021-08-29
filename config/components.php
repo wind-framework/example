@@ -5,6 +5,5 @@ return [
     \Wind\Event\Component::class,
     \Wind\Process\Component::class,
     \Wind\Collector\Component::class,
-	\Wind\Task\Component::class,
-    \Wind\Log\Component::class
+	\Wind\Task\Component::class
 ];

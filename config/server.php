@@ -23,10 +23,10 @@ return [
         /**
          * Websocket 服务器
          */
-        [
-            'type' => 'websocket',
-            'listen' => '0.0.0.0:2347'
-        ]
+        // [
+        //     'type' => 'websocket',
+        //     'listen' => '0.0.0.0:2347'
+        // ]
     ],
     'static_file' => [
         'document_root' => BASE_DIR.'/static',

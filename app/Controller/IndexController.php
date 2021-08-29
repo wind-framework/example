@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Amp\Loop;
 use App\Collect\GcRecycle;
 use App\Collect\GcStatusCollect;
 use Wind\Web\Controller;
@@ -36,7 +35,7 @@ class IndexController extends Controller
 
     public function sleep()
     {
-        yield delay(5000);
+        delay(5000);
         return 'Sleep 5 seconds.';
     }
 
@@ -60,12 +59,12 @@ class IndexController extends Controller
             . \floor(($runSeconds % 3600) / 60) . ' 分 '
             . \floor($runSeconds % 60) . ' 秒';
 
-        $driver = Loop::get();
+        $driver = \Amp\Loop::getDriver();
         $event = substr(explode('\\', get_class($driver))[2], 0, -6);
 
         //内存回收统计
         /* @var $info GcStatusCollect[] */
-        $info = yield Collector::get(GcStatusCollect::class);
+        $info = Collector::get(GcStatusCollect::class);
 
         usort($info, function($a, $b) {
             return $a->pid <=> $b->pid;
@@ -82,7 +81,7 @@ class IndexController extends Controller
 
     public function gcRecycle()
     {
-    	$info = yield Collector::get(GcRecycle::class);
+    	$info = Collector::get(GcRecycle::class);
     	return new Response(302, '', ['Location'=>'/gc-status']);
     }
 

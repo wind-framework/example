@@ -45,8 +45,9 @@ class TestController extends \Wind\Web\Controller
         //
         //$b = yield Promise\all($a);
 
-        $v = yield compute(function() {
-            yield delay(2000);
+        //Unsupported closure task call at 1.0.0-dev
+        $v = compute(function() {
+            delay(2000);
             return 'Hello World '.time();
         });
 
@@ -57,7 +58,7 @@ class TestController extends \Wind\Web\Controller
 
     public function taskCall()
     {
-        $a = yield compute(self::class.'::'.'ex');
+        $a = Task::execute(self::class.'::'.'ex');
 
         return $a;
     }
@@ -110,15 +111,15 @@ class TestController extends \Wind\Web\Controller
 
     public function log(LogFactory $logFactory)
     {
-        $log = $logFactory->get();
+        $log = $logFactory->get('test');
 
-        $e = new \ErrorException('This is a error!');
+        // $e = new \ErrorException('This is a error!');
 
         // add records to the log
-        $log->warning('Foo', [$e]);
+        // $log->warning('Foo', [$e]);
         $log->error('Bar');
 
-        yield Task::execute([self::class, 'taskLog']);
+        // yield Task::execute([self::class, 'taskLog']);
         return 'Ok';
     }
 

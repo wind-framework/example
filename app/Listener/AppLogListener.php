@@ -28,7 +28,7 @@ class AppLogListener extends \Wind\Event\Listener
         return [
             QueryEvent::class,
             QueryError::class,
-            //TaskExecuteEvent::class,
+            // TaskExecuteEvent::class,
             //CollectorEvent::class,
             CrontabEvent::class,
             QueueJobEvent::class,

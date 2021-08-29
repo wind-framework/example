@@ -16,4 +16,3 @@ if (!is_dir(RUNTIME_DIR)) {
 }
 
 Application::start();
-Worker::runAll();

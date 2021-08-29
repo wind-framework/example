@@ -3,5 +3,5 @@
 return [
     'default_timezone' => 'Asia/Shanghai',
     'debug' => true,
-    'max_stack_trace' => 5
+    'max_stack_trace' => 50
 ];

@@ -10,8 +10,8 @@
         "wind-framework/view": "1.0.0-dev",
         "amphp/http-client": "v5.x-dev",
         "wind-framework/web": "1.0.0-dev",
-        "twig/twig": "^3.2",
-        "pader/phpinfo-cli-parser": "^1.0"
+        "pader/phpinfo-cli-parser": "^1.0",
+        "twig/twig": "^3.3"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

@@ -20,7 +20,7 @@ class WebSocketController implements WebSocketInterface
      * @inheritDoc
      */
     public function onMessage($connection, $data) {
-        yield delay(1000);
+        delay(1000);
         $connection->send('You have sent: '.$data);
     }
 

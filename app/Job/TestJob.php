@@ -20,8 +20,12 @@ class TestJob extends Job
     public function handle()
     {
         echo "Handle job get value: {$this->value}\n";
-        yield delay(2000);
-        throw new \Exception("Error example.");
+        delay(5000);
+
+        if (mt_rand(0, 100) < 30) {
+            throw new \Exception("Error example.");
+        }
+
         echo "---END---\r\n";
     }
 

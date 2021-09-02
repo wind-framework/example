@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+    <title>队列信息</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Peek {{ status|capitalize }}</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#default</th>
+                    <th scope="col">信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID</td>
+                    <td>{{ message.id }}</td>
+                </tr>
+                <tr>
+                    <td>任务</td>
+                    <td>
+                        <span class="badge badge-primary">{{ jobClass }}</span>
+                        <pre class="mt-2">{{ message.job|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>优先级</td>
+                    <td>{{ message.priority }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>延迟</td>
+                    <td>{{ message.delayed }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>重试次数</td>
+                    <td>{{ message.attempts }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -27,6 +27,11 @@ return [
             'get /block' => 'IndexController::block',
             'get /exception' => 'IndexController::exception',
             'get /phpinfo' => 'IndexController::phpinfo',
+
+            'get /queue' => 'QueueController::index',
+            'get /queue/peek/{status}' => 'QueueController::peek',
+            'get /queue/wakeup' => 'QueueController::wakeup',
+            'get /queue/drop' => 'QueueController::drop'
         ],
         'groups' => [
             //test group (group can also have a key name)

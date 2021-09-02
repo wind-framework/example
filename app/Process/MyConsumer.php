@@ -2,9 +2,9 @@
 
 namespace App\Process;
 
-use Wind\Queue\QueueConsumerProcess;
+use Wind\Queue\ConsumerProcess;
 
-class MyConsumer extends QueueConsumerProcess
+class MyConsumer extends ConsumerProcess
 {
 
     protected $queue = 'qredis';

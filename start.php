@@ -16,3 +16,5 @@ if (!is_dir(RUNTIME_DIR)) {
 }
 
 Application::start();
+
+//start with xdebug: /opt/php81/bin/php -dzend_extension=xdebug -dxdebug.mode=debug -dxdebug.start_with_request=yes start.php start

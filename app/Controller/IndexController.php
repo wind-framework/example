@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Collect\GcRecycle;
 use App\Collect\GcStatusCollect;
-use Wind\Web\Controller;
+use Psr\SimpleCache\CacheInterface;
 use Wind\Collector\Collector;
 use Wind\Utils\FileUtil;
 use Wind\View\ViewInterface;
-use Psr\SimpleCache\CacheInterface;
+use Wind\Web\Controller;
 use Wind\Web\Response;
 use function Amp\delay;
 

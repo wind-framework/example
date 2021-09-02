@@ -18,6 +18,7 @@ use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Wind\Base\Channel;
 use Wind\Process\ProcessStat;
+use Wind\Process\ProcessState;
 use Wind\Utils\StrUtil;
 use Wind\View\ViewInterface;
 use Wind\Web\RequestInterface;
@@ -75,15 +76,13 @@ class TestController extends \Wind\Web\Controller
         $ret = [];
 
         $job = new TestJob('Hello World [Low Priority] ' . date('Y-m-d H:i:s'));
-        $ret[] = yield $queue->put($job, 2, Queue::PRI_LOW);
+        $ret[] = $queue->put($job, 2, Queue::PRI_LOW);
 
         $job = new TestJob('Hello World [Normal Priority] ' . date('Y-m-d H:i:s'));
-        $ret[] = yield $queue->put($job, 2);
+        $ret[] = $queue->put($job);
 
         $job = new TestJob('Hello World [High Priority] ' . date('Y-m-d H:i:s'));
-        $ret[] = yield $queue->put($job, 2, Queue::PRI_HIGH);
-
-        yield $queue->delete($ret[1]);
+        $ret[] = $queue->put($job, 2, Queue::PRI_HIGH);
 
         return json_encode($ret);
     }
@@ -151,7 +150,7 @@ class TestController extends \Wind\Web\Controller
 
     public function stat(Channel $channel, ViewInterface $view)
     {
-        $data = yield ProcessStat::get();
+        $data = ProcessState::get();
 
         $queueConsumerHelp = [];
 

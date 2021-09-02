@@ -4,6 +4,8 @@ namespace App\Task;
 
 use Wind\Db\Db;
 
+use function Amp\await;
+
 class TestTask
 {
 
@@ -12,7 +14,8 @@ class TestTask
     }
 
     public function query() {
-        $row = yield Db::fetchOne("SELECT NOW()");
+        // $row = await(Db::fetchOne("SELECT NOW()"));
+        $row = 'aa';
         print_r($row);
     }
 

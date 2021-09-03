@@ -31,7 +31,9 @@ return [
             'get /queue' => 'QueueController::index',
             'get /queue/peek/{status}' => 'QueueController::peek',
             'get /queue/wakeup' => 'QueueController::wakeup',
-            'get /queue/drop' => 'QueueController::drop'
+            'get /queue/drop' => 'QueueController::drop',
+
+            'get /redis/eval' => 'RedisController::script'
         ],
         'groups' => [
             //test group (group can also have a key name)

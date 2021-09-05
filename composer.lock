@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8733f691574293f104ada26dad5bfe5",
+    "content-hash": "b98468bfdab2d063cb9fe83b76ee76c3",
     "packages": [
         {
             "name": "amphp/amp",
@@ -106,12 +106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/byte-stream.git",
-                "reference": "c4d8537e4256f0c38aafa33273e08166eaa6173b"
+                "reference": "e027131b77dc3ce3aaffbb583083554567d4177d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/byte-stream/zipball/c4d8537e4256f0c38aafa33273e08166eaa6173b",
-                "reference": "c4d8537e4256f0c38aafa33273e08166eaa6173b",
+                "url": "https://api.github.com/repos/amphp/byte-stream/zipball/e027131b77dc3ce3aaffbb583083554567d4177d",
+                "reference": "e027131b77dc3ce3aaffbb583083554567d4177d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -181,7 +181,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-12T05:12:47+00:00"
+            "time": "2021-07-04T19:30:46+00:00"
         },
         {
             "name": "amphp/cache",
@@ -1328,16 +1328,16 @@
         },
         {
             "name": "graham-campbell/result-type",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
-                "reference": "7e279d2cd5d7fbb156ce46daada972355cea27bb"
+                "reference": "84afea85c6841deeea872f36249a206e878a5de0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/7e279d2cd5d7fbb156ce46daada972355cea27bb",
-                "reference": "7e279d2cd5d7fbb156ce46daada972355cea27bb",
+                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/84afea85c6841deeea872f36249a206e878a5de0",
+                "reference": "84afea85c6841deeea872f36249a206e878a5de0",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1347,18 +1347,13 @@
                 ]
             },
             "require": {
-                "php": "^7.0|^8.0",
-                "phpoption/phpoption": "^1.7.3"
+                "php": "^7.0 || ^8.0",
+                "phpoption/phpoption": "^1.8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.5|^7.5|^8.5|^9.0"
+                "phpunit/phpunit": "^6.5.14 || ^7.5.20 || ^8.5.19 || ^9.5.8"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "GrahamCampbell\\ResultType\\": "src/"
@@ -1371,7 +1366,7 @@
             "authors": [
                 {
                     "name": "Graham Campbell",
-                    "email": "graham@alt-three.com"
+                    "email": "hello@gjcampbell.co.uk"
                 }
             ],
             "description": "An Implementation Of The Result Type",
@@ -1384,7 +1379,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Result-Type/issues",
-                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.1"
+                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.2"
             },
             "funding": [
                 {
@@ -1396,7 +1391,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-13T13:17:36+00:00"
+            "time": "2021-08-28T21:34:50+00:00"
         },
         {
             "name": "kelunik/certificate",
@@ -2046,16 +2041,16 @@
         },
         {
             "name": "php-di/php-di",
-            "version": "6.3.4",
+            "version": "6.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-DI/PHP-DI.git",
-                "reference": "f53bcba06ab31b18e911b77c039377f4ccd1f7a5"
+                "reference": "b8126d066ce144765300ee0ab040c1ed6c9ef588"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/f53bcba06ab31b18e911b77c039377f4ccd1f7a5",
-                "reference": "f53bcba06ab31b18e911b77c039377f4ccd1f7a5",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/b8126d066ce144765300ee0ab040c1ed6c9ef588",
+                "reference": "b8126d066ce144765300ee0ab040c1ed6c9ef588",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2112,7 +2107,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-DI/PHP-DI/issues",
-                "source": "https://github.com/PHP-DI/PHP-DI/tree/6.3.4"
+                "source": "https://github.com/PHP-DI/PHP-DI/tree/6.3.5"
             },
             "funding": [
                 {
@@ -2124,7 +2119,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-10T08:04:48+00:00"
+            "time": "2021-09-02T09:49:58+00:00"
         },
         {
             "name": "php-di/phpdoc-reader",
@@ -2176,16 +2171,16 @@
         },
         {
             "name": "phpoption/phpoption",
-            "version": "1.7.5",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
-                "reference": "994ecccd8f3283ecf5ac33254543eb0ac946d525"
+                "reference": "5455cb38aed4523f99977c4a12ef19da4bfe2a28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/994ecccd8f3283ecf5ac33254543eb0ac946d525",
-                "reference": "994ecccd8f3283ecf5ac33254543eb0ac946d525",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/5455cb38aed4523f99977c4a12ef19da4bfe2a28",
+                "reference": "5455cb38aed4523f99977c4a12ef19da4bfe2a28",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2195,16 +2190,16 @@
                 ]
             },
             "require": {
-                "php": "^5.5.9 || ^7.0 || ^8.0"
+                "php": "^7.0 || ^8.0"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.4.1",
-                "phpunit/phpunit": "^4.8.35 || ^5.7.27 || ^6.5.6 || ^7.0 || ^8.0 || ^9.0"
+                "phpunit/phpunit": "^6.5.14 || ^7.0.20 || ^8.5.19 || ^9.5.8"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.8-dev"
                 }
             },
             "autoload": {
@@ -2223,7 +2218,7 @@
                 },
                 {
                     "name": "Graham Campbell",
-                    "email": "graham@alt-three.com"
+                    "email": "hello@gjcampbell.co.uk"
                 }
             ],
             "description": "Option Type for PHP",
@@ -2235,7 +2230,7 @@
             ],
             "support": {
                 "issues": "https://github.com/schmittjoh/php-option/issues",
-                "source": "https://github.com/schmittjoh/php-option/tree/1.7.5"
+                "source": "https://github.com/schmittjoh/php-option/tree/1.8.0"
             },
             "funding": [
                 {
@@ -2247,7 +2242,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-20T17:29:33+00:00"
+            "time": "2021-08-28T21:27:29+00:00"
         },
         {
             "name": "psr/container",
@@ -3025,14 +3020,14 @@
         },
         {
             "name": "wind-framework/beanstalk",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../beanstalk",
-                "reference": "9996f951d6c12998a69bc6375958aa5bb3f4fc69"
+                "reference": "945ad39dcd88f321053c818f68f63d34848ab0e7"
             },
             "require": {
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3057,16 +3052,16 @@
         },
         {
             "name": "wind-framework/cache",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../cache",
-                "reference": "d4448dc9db1cef1e928c3cd09dddcdd505be8f20"
+                "reference": "9ee2934817682b8fe991a7b18ef893a6f9dfb610"
             },
             "require": {
                 "psr/simple-cache": "^1.0",
-                "wind-framework/redis": "1.0.0-dev",
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/redis": "1.0.x-dev",
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3091,14 +3086,14 @@
         },
         {
             "name": "wind-framework/collector",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../collector",
-                "reference": "3b58d2471862afec19f0005360fd29e1b20d0383"
+                "reference": "43fe40b2c3d4a7919f700ddade87cf77c5f4d748"
             },
             "require": {
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3123,15 +3118,15 @@
         },
         {
             "name": "wind-framework/crontab",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../crontab",
-                "reference": "1f8a86bac3e971494270fb24675f420b26a44439"
+                "reference": "63aa4f3fe96657e412063d86ed93c5befb75a635"
             },
             "require": {
                 "dragonmantank/cron-expression": "^3.1",
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3156,15 +3151,15 @@
         },
         {
             "name": "wind-framework/db",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../db",
-                "reference": "145579ad70d70f2dfc7837e829c4383796a5b048"
+                "reference": "45de463ed8d122e69187b514e59ca562cf4f99a2"
             },
             "require": {
                 "amphp/mysql": "v3.x-dev",
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3189,16 +3184,16 @@
         },
         {
             "name": "wind-framework/queue",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../queue",
-                "reference": "dad4e799d63c814f6eb470c425a626a6ae741546"
+                "reference": "6ae3e2c8d8843bf4002e06f2a37c1009e94c03bf"
             },
             "require": {
-                "wind-framework/beanstalk": "1.0.0-dev",
-                "wind-framework/redis": "1.0.0-dev",
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/beanstalk": "1.0.x-dev",
+                "wind-framework/redis": "1.0.x-dev",
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3223,14 +3218,14 @@
         },
         {
             "name": "wind-framework/redis",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../redis",
-                "reference": "24fc478d718e8222008b7376aa39fea01f88faa9"
+                "reference": "134c88bef0af01ad1458a6dab62e57b1faf393bc"
             },
             "require": {
-                "wind-framework/wind-framework": "1.0.0-dev",
+                "wind-framework/wind-framework": "1.0.x-dev",
                 "workerman/redis": "^1.0"
             },
             "type": "library",
@@ -3256,14 +3251,14 @@
         },
         {
             "name": "wind-framework/view",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../view",
-                "reference": "5ece7b060271505c11d92532e6743de05bb440a6"
+                "reference": "3ccd14983df064801a354cbf98c0dc2ebff7a202"
             },
             "require": {
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3288,16 +3283,16 @@
         },
         {
             "name": "wind-framework/web",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../web",
-                "reference": "2d1b55e4b723761041c4c1d523223cf806b5fd0c"
+                "reference": "d444d6ae55f23c88cdd63fdcc2947b330f12abc2"
             },
             "require": {
                 "nikic/fast-route": "^1.3",
                 "psr/http-message": "^1.0",
-                "wind-framework/wind-framework": "1.0.0-dev"
+                "wind-framework/wind-framework": "1.0.x-dev"
             },
             "type": "library",
             "autoload": {
@@ -3322,11 +3317,11 @@
         },
         {
             "name": "wind-framework/wind-framework",
-            "version": "1.0.0-dev",
+            "version": "1.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../framework",
-                "reference": "927933f775bf29d8189656cb867cfb0bf3c1caab"
+                "reference": "95a09b9634b7e6d7e05fd4c5623c63664a0ee648"
             },
             "require": {
                 "amphp/amp": "v3.x-dev",

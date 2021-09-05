@@ -46,7 +46,7 @@ class TestController extends \Wind\Web\Controller
         //
         //$b = yield Promise\all($a);
 
-        //Unsupported closure task call at 1.0.0-dev
+        //Unsupported closure task call at 1.0.x-dev
         $v = compute(function() {
             delay(2000);
             return 'Hello World '.time();

@@ -1,15 +1,15 @@
 {
     "name": "wind-framework/example",
     "require": {
-        "wind-framework/cache": "1.0.0-dev",
-        "wind-framework/collector": "1.0.0-dev",
-        "wind-framework/crontab": "1.0.0-dev",
-        "wind-framework/db": "1.0.0-dev",
-        "wind-framework/queue": "1.0.0-dev",
-        "wind-framework/redis": "1.0.0-dev",
-        "wind-framework/view": "1.0.0-dev",
+        "wind-framework/cache": "1.0.x-dev",
+        "wind-framework/collector": "1.0.x-dev",
+        "wind-framework/crontab": "1.0.x-dev",
+        "wind-framework/db": "1.0.x-dev",
+        "wind-framework/queue": "1.0.x-dev",
+        "wind-framework/redis": "1.0.x-dev",
+        "wind-framework/view": "1.0.x-dev",
         "amphp/http-client": "v5.x-dev",
-        "wind-framework/web": "1.0.0-dev",
+        "wind-framework/web": "1.0.x-dev",
         "pader/phpinfo-cli-parser": "^1.0",
         "twig/twig": "^3.3"
     },

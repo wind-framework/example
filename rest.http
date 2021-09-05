@@ -1,0 +1,12 @@
+### DB Random Soul
+GET http://127.0.0.1:2346/soul
+
+### DB Get One
+GET http://127.0.0.1:2346/soul/456
+
+
+### DB Souls
+GET http://127.0.0.1:2346/souls
+
+### DB Concurrent
+GET http://127.0.0.1:2346/db/concurrent

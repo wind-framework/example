@@ -92,12 +92,12 @@ class TestController extends \Wind\Web\Controller
         $client = HttpClientBuilder::buildDefault();
         $request = new HttpRequest('http://pv.sohu.com/cityjson?ie=utf-8');
 
-        $response = yield $client->request($request);
+        $response = $client->request($request);
 
 
         $status = $response->getStatus();
         //print_r($response->getHeaders());
-        $buffer = yield $response->getBody()->buffer();
+        $buffer = $response->getBody()->buffer();
 
         if ($status == 200) {
             $json = substr($buffer, 19, -1);

@@ -15,7 +15,7 @@ class Invoker
 
 	public function getCache($input)
 	{
-        $lastVisit = yield $this->cache->get('lastvisit');
+        $lastVisit = $this->cache->get('lastvisit');
         return 'Input: '.$input.', Output: '.json_encode($lastVisit);
 	}
 

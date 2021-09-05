@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use Amp\Promise;
 use Wind\Web\Controller;
 use Wind\Db\Db;
 use Wind\View\ViewInterface;

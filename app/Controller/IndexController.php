@@ -64,7 +64,7 @@ class IndexController extends Controller
         $event = substr(explode('\\', get_class($driver))[2], 0, -6);
 
         //内存回收统计
-        /* @var $info GcStatusCollect[] */
+        /** @var GcStatusCollect[] $info */
         $info = Collector::get(GcStatusCollect::class);
 
         usort($info, function($a, $b) {

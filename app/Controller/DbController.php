@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use Amp\Promise;
+use Amp\Sql\QueryError;
+use ErrorException;
 use Wind\Web\Controller;
 use Wind\Db\Db;
 use Wind\View\ViewInterface;
@@ -43,6 +45,17 @@ class DbController extends Controller
         yield Promise\all([$a, $b]);
 
         return 'concurrent';
+    }
+
+    public function insert()
+    {
+        return yield Db::table('posts')->insert([
+            'id' => 19,
+            'title' => 'Test insert ignore',
+            'body' => 'Test insert ignore\'s body content.'
+        ], [
+            'body' => 'Test insertOrUpdate is updated 2.'
+        ]);
     }
 
 }

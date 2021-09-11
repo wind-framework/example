@@ -17,7 +17,7 @@ use Wind\Task\Task;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Wind\Base\Channel;
-use Wind\Process\ProcessStat;
+use Wind\Process\ProcessState;
 use Wind\Utils\StrUtil;
 use Wind\View\ViewInterface;
 use Wind\Web\RequestInterface;
@@ -71,20 +71,28 @@ class TestController extends \Wind\Web\Controller
     public function queue(QueueFactory $factory)
     {
         $queue = $factory->get('default');
+
+        // $fail = yield $queue->peekDelayed();
+        // return serialize($fail);
+
         $ret = [];
 
-        $job = new TestJob('Hello World [Low Priority] ' . date('Y-m-d H:i:s'));
-        $ret[] = yield $queue->put($job, 2, Queue::PRI_LOW);
+        for ($i=0; $i<10000; $i++) {
+            $job = new TestJob('Hello World [Low Priority] ' . date('Y-m-d H:i:s'));
+            $ret[] = yield $queue->put($job, 0, Queue::PRI_LOW);
 
-        $job = new TestJob('Hello World [Normal Priority] ' . date('Y-m-d H:i:s'));
-        $ret[] = yield $queue->put($job, 2);
+            $job = new TestJob('Hello World [Normal Priority] ' . date('Y-m-d H:i:s'));
+            $ret[] = yield $queue->put($job, 5);
 
-        $job = new TestJob('Hello World [High Priority] ' . date('Y-m-d H:i:s'));
-        $ret[] = yield $queue->put($job, 2, Queue::PRI_HIGH);
+            $job = new TestJob('Hello World [High Priority] ' . date('Y-m-d H:i:s'));
+            $ret[] = yield $queue->put($job, 86400, Queue::PRI_HIGH);
+        }
 
-        yield $queue->delete($ret[1]);
+        // yield $queue->delete($ret[1]);
 
-        return json_encode($ret);
+        // $stats = $queue->stats();
+
+        return $ret;
     }
 
     public function http()
@@ -150,7 +158,7 @@ class TestController extends \Wind\Web\Controller
 
     public function stat(Channel $channel, ViewInterface $view)
     {
-        $data = yield ProcessStat::get();
+        $data = yield ProcessState::get();
 
         $queueConsumerHelp = [];
 

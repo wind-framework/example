@@ -12,6 +12,8 @@ class TestJob extends Job
 
     public $value;
 
+    public $maxAttempts = 1;
+
     public function __construct($value)
     {
         $this->value = $value;
@@ -20,17 +22,17 @@ class TestJob extends Job
     public function handle()
     {
         echo "Handle job get value: {$this->value}\n";
-        yield delay(2000);
-        throw new \Exception("Error example.");
+        // yield delay(5000);
+        // throw new \Exception("Error example.");
         echo "---END---\r\n";
     }
 
-    public function fail($message, $ex)
-    {
-        echo "\n\n\n";
-        echo $ex->getMessage();
-        echo "\n\n\n";
-        return false;
-    }
+    // public function fail($message, $ex)
+    // {
+    //     echo "\n\n\n";
+    //     echo $ex->getMessage();
+    //     echo "\n\n\n";
+    //     return false;
+    // }
 
 }

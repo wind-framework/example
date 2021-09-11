@@ -53,7 +53,8 @@ return [
                     'post upload' => 'TestController::uploadFile',
                     'get db/insert' => 'DbController::insert',
                     'get stat' => 'TestController::stat',
-                    'get websocket' => 'TestController::websocket'
+                    'get websocket' => 'TestController::websocket',
+                    'get redis/transaction' => 'RedisController::transaction'
                 ]
             ],
             //g2 group

@@ -54,6 +54,7 @@ return [
                     'get db/insert' => 'DbController::insert',
                     'get stat' => 'TestController::stat',
                     'get websocket' => 'TestController::websocket',
+                    'get redis/get' => 'RedisController::get',
                     'get redis/transaction' => 'RedisController::transaction'
                 ]
             ],

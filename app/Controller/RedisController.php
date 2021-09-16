@@ -11,6 +11,12 @@ use function Amp\Promise\all;
 class RedisController extends \Wind\Web\Controller
 {
 
+    public function get(Redis $redis)
+    {
+        yield $redis->setEx('test:hello', 5, 'Hello World');
+        return $redis->get('test:hello');
+    }
+
     /**
      * Redis 事务并发问题测试
      *

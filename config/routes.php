@@ -58,6 +58,7 @@ return [
                     'get stat' => 'TestController::stat',
                     'get websocket' => 'TestController::websocket',
 
+                    'get /redis/get' => 'RedisController::get',
                     'get /redis/transaction' => 'RedisController::transaction',
                     'get /redis/eval' => 'RedisController::script'
                 ]

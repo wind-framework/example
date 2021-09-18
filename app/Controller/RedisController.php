@@ -12,6 +12,12 @@ use function Amp\delay;
 class RedisController extends \Wind\Web\Controller
 {
 
+    public function get(Redis $redis)
+    {
+        $redis->setEx('test:hello', 60, 'Hello World');
+        return $redis->get('test:hello');
+    }
+
     /**
      * Redis 事务并发问题测试
      *

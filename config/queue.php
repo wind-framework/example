@@ -15,5 +15,12 @@ return [
         'key' => 'wind:queue',
         'processes' => 2,
         'concurrent' => 16
+    ],
+    'lan2' => [
+        'driver' => Wind\Queue\Driver\RedisDriver::class,
+        'key' => 'wind:queue',
+        'processes' => 2,
+        'concurrent' => 16,
+        'connection' => 'lan2'
     ]
 ];

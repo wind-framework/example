@@ -70,14 +70,14 @@ class TestController extends \Wind\Web\Controller
 
     public function queue(QueueFactory $factory)
     {
-        $queue = $factory->get('default');
+        $queue = $factory->get();
 
         // $fail = yield $queue->peekDelayed();
         // return serialize($fail);
 
         $ret = [];
 
-        for ($i=0; $i<10000; $i++) {
+        //for ($i=0; $i<10; $i++) {
             $job = new TestJob('Hello World [Low Priority] ' . date('Y-m-d H:i:s'));
             $ret[] = yield $queue->put($job, 0, Queue::PRI_LOW);
 
@@ -86,7 +86,7 @@ class TestController extends \Wind\Web\Controller
 
             $job = new TestJob('Hello World [High Priority] ' . date('Y-m-d H:i:s'));
             $ret[] = yield $queue->put($job, 86400, Queue::PRI_HIGH);
-        }
+        //}
 
         // yield $queue->delete($ret[1]);
 
@@ -168,6 +168,13 @@ class TestController extends \Wind\Web\Controller
                 foreach ($process as $pid => $items) {
                     $queueConsumerHelp[$group][$pid] = count($items);
                 }
+                if (count($process) > 1) {
+                    ksort($data['queue_consumer_concurrent'][$group]);
+                }
+            }
+
+            if (count($data['queue_consumer_concurrent']) > 1) {
+                ksort($data['queue_consumer_concurrent']);
             }
         }
 

@@ -52,6 +52,7 @@ return [
                     'get file' => 'TestController::sendFile',
                     'post upload' => 'TestController::uploadFile',
                     'get db/insert' => 'DbController::insert',
+                    'get db/transaction' => 'DbController::transaction',
                     'get stat' => 'TestController::stat',
                     'get websocket' => 'TestController::websocket',
                     'get redis/get' => 'RedisController::get',

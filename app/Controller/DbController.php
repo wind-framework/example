@@ -16,6 +16,7 @@ class DbController extends Controller
     {
         $count = yield Db::table('soul')->count();
         $offset = mt_rand(0, $count-1);
+
         $row = yield Db::table('soul')->limit(1, $offset)->fetchOne();
 
         if ($row) {
@@ -56,6 +57,22 @@ class DbController extends Controller
         ], [
             'body' => 'Test insertOrUpdate is updated 2.'
         ]);
+    }
+
+    public function transaction()
+    {
+        /**
+         * @var \Wind\Db\Transaction $transaction
+         */
+        $transaction = yield Db::beginTransaction();
+        yield $transaction->table('posts')->where(['id'=>2])->update(['^views'=>'views+1']);
+        yield $transaction->table('posts')->where(['id'=>3])->update(['^views'=>'views+1']);
+        $data = yield $transaction->table('posts')->where(['id'=>1])->fetchOne();
+        yield $transaction->rollback();
+
+        yield Db::table('posts')->where(['id'=>1])->update(['^views'=>'views+1']);
+
+        return $data;
     }
 
 }

@@ -22,5 +22,11 @@ return [
         'processes' => 2,
         'concurrent' => 16,
         'connection' => 'lan2'
+    ],
+    'db' => [
+        'driver' => \Wind\Queue\Driver\DbDriver::class,
+        'channel' => 'test',
+        'connection' => null,
+        'table_prefix' => 'wind_queue_'
     ]
 ];

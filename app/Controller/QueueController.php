@@ -29,7 +29,13 @@ class QueueController extends Controller
         $currentKey = $request->get('queue', 'default');
         $queueKeys = array_keys(config('queue'));
         $stats = yield $this->instance($request)->stats();
-        return $view->render('queue/index.twig', compact('stats', 'currentKey', 'queueKeys'));
+
+        $uptime = \floor($stats['uptime'] / 86400) . ' 天 '
+            . \floor(($stats['uptime'] % 86400) / 3600) . ' 小时 '
+            . \floor(($stats['uptime'] % 3600) / 60) . ' 分 '
+            . \floor($stats['uptime'] % 60) . ' 秒';
+
+        return $view->render('queue/index.twig', compact('stats', 'currentKey', 'queueKeys', 'uptime'));
     }
 
     public function peek(ViewInterface $view, RequestInterface $request, $status)

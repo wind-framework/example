@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Collect\GcRecycle;
 use App\Collect\GcStatusCollect;
 use Psr\SimpleCache\CacheInterface;
+use Revolt\EventLoop;
 use Wind\Collector\Collector;
 use Wind\Utils\FileUtil;
 use Wind\View\ViewInterface;
@@ -60,8 +61,12 @@ class IndexController extends Controller
             . \floor(($runSeconds % 3600) / 60) . ' 分 '
             . \floor($runSeconds % 60) . ' 秒';
 
-        $driver = \Amp\Loop::getDriver();
-        $event = substr(explode('\\', get_class($driver))[2], 0, -6);
+        $driver = EventLoop::getDriver();
+        $event = substr(explode('\\', get_class($driver))[3], 0, -6);
+
+        if ($event == 'StreamSelect') {
+            $event = 'Native';
+        }
 
         //内存回收统计
         /** @var GcStatusCollect[] $info */

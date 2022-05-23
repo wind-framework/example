@@ -9,6 +9,8 @@ use Amp\Http\Client\HttpException as ClientHttpException;
 use Amp\Http\Client\Request as HttpRequest;
 use App\Helper\Invoker;
 use App\Job\TestJob;
+use App\Job\TimeoutJob;
+use App\Task\TestTask;
 use Wind\Base\Config;
 use Wind\Log\LogFactory;
 use Wind\Queue\Queue;
@@ -17,6 +19,7 @@ use Wind\Task\Task;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Wind\Base\Channel;
+use Wind\Event\EventDispatcher;
 use Wind\Process\ProcessStat;
 use Wind\Process\ProcessState;
 use Wind\Utils\StrUtil;
@@ -24,7 +27,9 @@ use Wind\View\ViewInterface;
 use Wind\Web\RequestInterface;
 use Wind\Web\Response;
 use Workerman\Protocols\Http\Request;
+use Workerman\Timer;
 
+use function Amp\async;
 use function Amp\delay;
 
 class TestController extends \Wind\Web\Controller
@@ -32,10 +37,10 @@ class TestController extends \Wind\Web\Controller
 
     public $invoker;
 
-    public function __construct(Invoker $invoker)
-    {
-        $this->invoker = $invoker;
-    }
+    // public function __construct(Invoker $invoker)
+    // {
+    //     $this->invoker = $invoker;
+    // }
 
     public static function ex()
     {
@@ -46,22 +51,46 @@ class TestController extends \Wind\Web\Controller
         //
         //$b = yield Promise\all($a);
 
-        //Unsupported closure task call at 1.0.x-dev
-        $v = compute(function() {
-            delay(2000);
-            return 'Hello World '.time();
-        });
+        echo "Hello World\n";
 
-        return $v;
-        $previous = new ClientHttpException('Bad Request', 400);
-        throw new UnprocessedRequestException($previous);
+        Timer::add(1, asyncCallable(fn() => self::ex()), persistent: false);
+
+        di()->get(EventDispatcher::class)->dispatch(new \Wind\Crontab\CrontabEvent('test', \Wind\Crontab\CrontabEvent::TYPE_SCHED, 666));
+
+        self::bb();
+        //Unsupported closure task call at 1.0.x-dev
+        // $v = compute(function() {
+        //     delay(2000);
+        //     return 'Hello World '.time();
+        // });
+
+        // return $v;
+        // $previous = new ClientHttpException('Bad Request', 400);
+        // throw new UnprocessedRequestException($previous);
+    }
+
+    public static function bb()
+    {
+        di()->get(EventDispatcher::class)->dispatch(new \Wind\Crontab\CrontabEvent('test', \Wind\Crontab\CrontabEvent::TYPE_EXECUTE));
+
+        async(static fn($arg) => \Wind\Task\Task::execute($arg), [TestTask::class, 'query'])->map(function($e, $result) {
+            if ($e) {
+                echo $e->getMessage()."\n";
+            } else {
+                var_dump($result);
+            }
+        });
     }
 
     public function taskCall()
     {
-        $a = Task::execute(self::class.'::'.'ex');
+        self::ex();
 
-        return $a;
+        // $a = Task::execute(self::class.'::'.'ex');
+
+        // $a = compute([TestTask::class, 'abc']);
+
+        // return $a;
     }
 
     public function request(Request $req, $id, ContainerInterface $container, CacheInterface $cache)
@@ -83,6 +112,9 @@ class TestController extends \Wind\Web\Controller
 
         $job = new TestJob('Hello World [High Priority] ' . date('Y-m-d H:i:s'));
         $ret[] = $queue->put($job, 2, Queue::PRI_HIGH);
+
+        $job = new TimeoutJob();
+        $ret[] = $queue->put($job);
 
         return json_encode($ret);
     }

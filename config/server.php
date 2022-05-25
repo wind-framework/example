@@ -7,8 +7,15 @@ return [
      * 支持参数：
      * listen: 监听配置，指定 IP与端口，如 127.0.0.1:8080
      * worker_num: 工作进程数量，默认为 1
-     * type: 服务器类型，目前仅支持 http
-     * reuse_port: 端口复用开关，默认为 false
+     * type: 服务器类型，支持 http, websocket
+     * reuse_port: 端口复用开关，默认为 false,
+     * context_options: 传递到 stream_context 中的选项
+     * ssl: 是否启用 ssl，默认否
+     * router: 指定使用的路由配，http 默认为 routes，websocket 默认为 websocket，Websocket 下路由为可选项
+     * on_start: 服务启动回调，仅 WebSocket 可用
+     * on_stop: 服务结束回调，仅 WebSocket 可用
+     * on_ping: Websocket 服务接收到 ping 时的回调，当 Controller 设置了面向连接的 onPing 时，便不会触发此回调
+     * on_pong: Websocket 服务接收到 pong 时的回调，当 Controller 设置了面向连接的 onPong 时，便不会触发此回调
      */
     'servers' => [
         /**
@@ -25,7 +32,9 @@ return [
          */
         [
             'type' => 'websocket',
-            'listen' => '0.0.0.0:2347'
+            'listen' => '0.0.0.0:2347',
+            'on_start' => '\App\Controller\WebSocketController::onWorkerStart',
+            'on_stop' => '\App\Controller\WebSocketController::onWorkerStop'
         ]
     ],
     'static_file' => [

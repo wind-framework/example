@@ -67,5 +67,5 @@ return [
      * 服务器会对输出的数组等进行默认 JSON 转换输出，此选项设定默认 JSON 转换时的选项。
      * 参考 json_encode() 函数
      */
-    'json_options' => JSON_UNESCAPED_UNICODE
+    'json_options' => JSON_THROW_ON_ERROR | JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_UNESCAPED_UNICODE
 ];

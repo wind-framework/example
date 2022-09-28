@@ -5,9 +5,8 @@ namespace App\Controller;
 use Wind\Redis\Redis;
 
 use function Amp\async;
-use function Amp\await;
-use function Amp\defer;
 use function Amp\delay;
+use function Amp\Future\await;
 
 class RedisController extends \Wind\Web\Controller
 {
@@ -15,7 +14,8 @@ class RedisController extends \Wind\Web\Controller
     public function get(Redis $redis)
     {
         $redis->setEx('test:hello', 60, 'Hello World');
-        return $redis->get('test:hello');
+        // return $redis->get('test:hello');
+        return $redis->incr('test_counter');
     }
 
     /**
@@ -36,24 +36,39 @@ class RedisController extends \Wind\Web\Controller
      */
     public function transaction(Redis $redis)
     {
-        defer([$redis, 'transaction'], function($transaction) {
-            $transaction->set('aaa', 'aaa 123', 5);
-            $transaction->set('bbb', 'bbb 234', 5);
+        $a = $redis->transaction(function($transaction) {
+            echo "Transaction A start\n";
+            $a = [];
+            $a[] = $transaction->set('aaa', 'aaa 123', 5);
+            $a[] = $transaction->set('bbb', 'bbb 234', 5);
+            $a[] = $transaction->get('aaa');
+            echo "Transaction A finished\n";
+            return $a;
         });
 
-        defer([$redis, 'transaction'], function($transaction) {
-            delay(100);
-            $transaction->set('ccc', 'ccc 345', 5);
+        print_r($a);
+
+        defer(function() use ($redis) {
+            $redis->transaction(function($transaction) {
+                echo "Transaction B start\n";
+                delay(2);
+                $transaction->set('ccc', 'ccc 345', 5);
+                echo "Transaction B finished\n";
+            });
         });
 
         $ps = await([
-            async([$redis, 'get'], 'aaa'),
-            async([$redis, 'get'], 'bbb'),
-            async([$redis, 'get'], 'ccc')
+            async(fn () => $redis->get('aaa')),
+            async(fn () => $redis->get('bbb')),
+            async(fn () => $redis->get('ccc'))
         ]);
 
-        defer([$redis, 'transaction'], function($transaction) {
-            $transaction->set('ccc', 'ccc 456', 5);
+        defer(function() use ($redis) {
+            $redis->transaction(function($transaction) {
+                echo "Transaction C start\n";
+                $transaction->set('ccc', 'ccc 456', 5);
+                echo "Transaction C finished\n";
+            });
         });
 
         $ps[] = $redis->get('ccc');

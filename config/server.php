@@ -25,7 +25,9 @@ return [
          */
         [
             'type' => 'websocket',
-            'listen' => '0.0.0.0:2347'
+            'listen' => '0.0.0.0:2347',
+            'on_start' => '\App\Controller\WebSocketController::onWorkerStart',
+            'on_stop' => '\App\Controller\WebSocketController::onWorkerStop'
         ]
     ],
     'static_file' => [

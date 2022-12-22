@@ -1,7 +1,5 @@
 <?php
 
 return [
-    'routes' => [
-        '/chat' => \App\Controller\WebSocketController::class
-    ]
+    '/chat' => \App\Controller\WebSocketController::class
 ];

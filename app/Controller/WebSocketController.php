@@ -8,6 +8,16 @@ use function Amp\delay;
 class WebSocketController implements WebSocketInterface
 {
 
+    public static function onWorkerStart()
+    {
+        echo "WebSocket Worker Start.\n";
+    }
+
+    public static function onWorkerStop()
+    {
+        echo "WebSocket Worker Stopped.\n";
+    }
+
     /**
      * @inheritDoc
      */

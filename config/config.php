@@ -4,7 +4,9 @@ return [
     'default_timezone' => 'Asia/Shanghai',
     'debug' => true,
     'max_stack_trace' => 50,
-    'annotation_map' => [
-        'App\\Controller' => BASE_DIR.'/app/Controller'
+    'annotation' => [
+        'scan' => [
+            'App\\Controller' => BASE_DIR.'/app/Controller'
+        ]
     ]
 ];

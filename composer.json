@@ -10,7 +10,7 @@
         "wind-framework/redis": "~0.1",
         "wind-framework/view": "~0.1",
         "amphp/http-client": "^4.5",
-        "wind-framework/web": "~0.2",
+        "wind-framework/web": "~0.3",
         "twig/twig": "^3.2",
         "pader/phpinfo-cli-parser": "^1.0"
     },

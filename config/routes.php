@@ -26,13 +26,32 @@ return [
             'get /sleep' => 'IndexController::sleep',
             'get /block' => 'IndexController::block',
             'get /exception' => 'IndexController::exception',
-            'get /phpinfo' => 'IndexController::phpinfo',
-            'get /queue' => 'QueueController::index',
-            'get /queue/peek/{status}' => 'QueueController::peek',
-            'get /queue/wakeup' => 'QueueController::wakeup',
-            'get /queue/drop' => 'QueueController::drop'
+            'get /phpinfo' => 'IndexController::phpinfo'
         ],
         'groups' => [
+            'queue' => [
+                'prefix' => '/queue',
+                'routes' => [
+                    'get ' => 'QueueController::index',
+                    'get /peek/{status}' => 'QueueController::peek',
+                    'get /wakeup' => 'QueueController::wakeup',
+                    'get /drop' => 'QueueController::drop'
+                ]
+            ],
+            'timeout' => [
+                'prefix' => '/timeout',
+                'routes' => [
+                    'get touchable' => 'TimeoutController::touchable',
+                    'get touchable-job' => 'TimeoutController::touchableJob',
+                ]
+            ],
+            'cache' => [
+                'prefix' => '/cache',
+                'routes' => [
+                    'get get' => 'CacheController::get',
+                    'get set' => 'CacheController::set',
+                ]
+            ],
             //test group (group can also have a key name)
             'g1' => [
                 'prefix' => '/test',

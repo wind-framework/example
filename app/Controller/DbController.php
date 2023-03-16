@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Amp\Promise;
 use Amp\Sql\QueryError;
+use App\Models\Soul;
+use App\Models\Test;
 use ErrorException;
 use Wind\Web\Controller;
 use Wind\Db\Db;
@@ -14,14 +16,12 @@ class DbController extends Controller
 
     public function soul(ViewInterface $view)
     {
-        $count = yield Db::table('soul')->count();
-        $offset = mt_rand(0, $count-1);
+        /** @var Soul $soul */
+        $soul = yield Soul::random();
 
-        $row = yield Db::table('soul')->limit(1, $offset)->fetchOne();
-
-        if ($row) {
-            yield Db::table('soul')->where(['id' => $row['id']])->update(['^hits'=>'hits+1']);
-            return $view->render('soul.twig', ['title'=>$row['title']]);
+        if ($soul) {
+            yield $soul->increment('hits');
+            return $view->render('soul.twig', ['title'=>$soul->title]);
         } else {
             return "今天不丧。";
         }
@@ -29,7 +29,7 @@ class DbController extends Controller
 
     public function soulFind($id)
     {
-        $row = yield Db::table('soul')->where(['id' => $id])->fetchOne();
+        $row = yield Soul::find($id);
 
         if ($row) {
             return print_r($row, true);
@@ -73,6 +73,11 @@ class DbController extends Controller
         yield Db::table('posts')->where(['id'=>1])->update(['^views'=>'views+1']);
 
         return $data;
+    }
+
+    public function model()
+    {
+        Test::query();
     }
 
 }

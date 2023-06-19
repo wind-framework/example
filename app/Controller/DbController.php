@@ -75,9 +75,9 @@ class DbController extends Controller
         return $data;
     }
 
-    public function model()
+    public function souls()
     {
-        Test::query();
+        return Db::table('soul')->limit(10)->indexBy('id')->fetchAll();
     }
 
 }

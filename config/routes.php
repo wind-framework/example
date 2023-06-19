@@ -22,6 +22,7 @@ return [
             'get /cache' => 'IndexController::cache',
             'get /soul' => 'DbController::soul',
             'get /soul/{id:\d+}' => 'DbController::soulFind',
+            'get /souls' => 'DbController::souls',
             'get /db/concurrent' => 'DbController::concurrent',
             'get /sleep' => 'IndexController::sleep',
             'get /block' => 'IndexController::block',

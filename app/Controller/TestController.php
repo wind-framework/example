@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
-use Amp\Deferred;
+use Amp\Http\Client\Connection\DefaultConnectionFactory;
+use Amp\Http\Client\Connection\UnlimitedConnectionPool;
 use Amp\Http\Client\Connection\UnprocessedRequestException;
 use Amp\Http\Client\HttpClientBuilder;
 use Amp\Http\Client\HttpException as ClientHttpException;
 use Amp\Http\Client\Request as HttpRequest;
+use Amp\Http\Tunnel\Http1TunnelConnector;
 use App\Helper\Invoker;
 use App\Job\TestJob;
 use App\Job\TimeoutJob;
@@ -19,11 +21,13 @@ use Wind\Task\Task;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Wind\Base\Channel;
+use Wind\Base\Context;
 use Wind\Event\EventDispatcher;
-use Wind\Process\ProcessStat;
 use Wind\Process\ProcessState;
-use Wind\Utils\StrUtil;
 use Wind\View\ViewInterface;
+use Wind\Web\Annotation\Get;
+use Wind\Web\Annotation\Post;
+use Wind\Web\Request as WebRequest;
 use Wind\Web\RequestInterface;
 use Wind\Web\Response;
 use Workerman\Protocols\Http\Request;
@@ -73,7 +77,7 @@ class TestController extends \Wind\Web\Controller
     {
         di()->get(EventDispatcher::class)->dispatch(new \Wind\Crontab\CrontabEvent('test', \Wind\Crontab\CrontabEvent::TYPE_EXECUTE));
 
-        async(static fn($arg) => \Wind\Task\Task::execute($arg), [TestTask::class, 'query'])->map(function($e, $result) {
+        async(static fn($arg) => \Wind\Task\Task::await($arg), [TestTask::class, 'query'])->map(function($e, $result) {
             if ($e) {
                 echo $e->getMessage()."\n";
             } else {
@@ -121,8 +125,14 @@ class TestController extends \Wind\Web\Controller
 
     public function http()
     {
+        // $socketConnector = new Http1TunnelConnector('192.168.4.4:7890');
+        // $client = (new HttpClientBuilder())
+        //     ->usingPool(new UnlimitedConnectionPool(new DefaultConnectionFactory($socketConnector)))
+        //     ->build();
+
         $client = HttpClientBuilder::buildDefault();
-        $request = new HttpRequest('http://pv.sohu.com/cityjson?ie=utf-8');
+
+        $request = new HttpRequest('https://api64.ipify.org?format=json');
 
         $response = $client->request($request);
 
@@ -132,9 +142,9 @@ class TestController extends \Wind\Web\Controller
         $buffer = $response->getBody()->buffer();
 
         if ($status == 200) {
-            $json = substr($buffer, 19, -1);
-            $data = json_decode($json, true);
-            return "<p>IP：{$data['cip']}</p><p>Location：{$data['cname']}</p>";
+            // $json = substr($buffer, 19, -1);
+            $data = json_decode($buffer, true);
+            return "<p>IP：{$data['ip']}</p><p>Location：{$data['city']}</p>";
         } else {
             return 'Request ' . $status . ' Error!';
         }
@@ -201,6 +211,50 @@ class TestController extends \Wind\Web\Controller
     public function websocket(ViewInterface $view)
     {
         return $view->render('websocket.twig');
+    }
+
+    #[Get('/hello/test123')]
+    public function helloTest(LogFactory $logFactory)
+    {
+        $logger = $logFactory->get('test-helloTest', 'task');
+        $logger->info('This is a test.');
+
+        return "This is hello test";
+    }
+
+    #[Post('/hello/a2')]
+    public function a2()
+    {
+        return "This is a2";
+    }
+
+    #[Get('/test/request-context-1')]
+    public function requestContext1()
+    {
+        delay(5);
+
+        $invoker = di()->get(Invoker::class);
+        $userId = $invoker->getCurrentUser();
+
+        Context::set('context-name', WebRequest::current()->getUri()->getPath());
+
+        $contextName = $invoker->getContextName();
+
+        return "Request context 1 get user id is: $userId, context name is: $contextName.\n";
+    }
+
+    #[Get('/test/request-context-2')]
+    public function requestContext2()
+    {
+        $invoker = di()->get(Invoker::class);
+
+        $userId = $invoker->getCurrentUser();
+
+        Context::set('context-name', WebRequest::current()->getUri()->getPath());
+
+        $contextName = $invoker->getContextName();
+
+        return "Request context 2 get user id is: $userId, context name is: $contextName.\n";
     }
 
 }

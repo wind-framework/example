@@ -3,6 +3,10 @@
 namespace App\Helper;
 
 use Psr\SimpleCache\CacheInterface;
+use Wind\Base\Context;
+use Wind\Web\Request;
+
+use function Amp\delay;
 
 class Invoker
 {
@@ -27,6 +31,18 @@ class Invoker
         }
         sleep(1);
         return $a.$c;
+    }
+
+    public function getCurrentUser()
+    {
+        // delay(0.01);
+        return Request::current()->get('uid');
+    }
+
+    public function getContextName()
+    {
+        delay(0.01);
+        return Context::get('context-name');
     }
 
 }

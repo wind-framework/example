@@ -2,6 +2,7 @@
 
 namespace App\Process;
 
+use Amp\CancelledException;
 use Wind\Base\Context;
 use Wind\Base\TouchableTimeoutCancellation;
 use Wind\Db\Db;
@@ -58,6 +59,28 @@ class TestProcess extends Process
         assert(array_keys($rows[1])[0] == current($rows[1])['id']);
     }
 
+    protected function testTouchableTimeout()
+    {
+        $cancellation = new TouchableTimeoutCancellation(0.5);
+
+        async(function() use ($cancellation) {
+            delay(0.4);
+            $cancellation->touch();
+            delay(0.4);
+            $cancellation->touch();
+            delay(0.4);
+        })->await($cancellation);
+
+        try {
+            $cancellation = new TouchableTimeoutCancellation(0.5, 'Watchout');
+            async(fn() => delay(0.6))->await($cancellation);
+            throw new \AssertionError('TouchableTimeoutCancellation not timeout.');
+        } catch (\Throwable $e) {
+            assert($e instanceof CancelledException);
+            assert($e->getPrevious()->getMessage() == 'Watchout');
+        }
+    }
+
     /**
      * 测试内部 Promise 的异常状态是否正常抛出
      *
@@ -68,9 +91,14 @@ class TestProcess extends Process
         $cancellation = new TouchableTimeoutCancellation(0.5);
 
         try {
-            async(function() {
+            $future = async(function() {
                 throw new \ErrorException('Code exception.');
-            })->await($cancellation);
+            });
+
+            delay(0.1);
+
+            $future->await($cancellation);
+
             throw new \Exception('Should throw an exception.');
         } catch (\ErrorException $e) {
             assert($e->getMessage() === 'Code exception.');

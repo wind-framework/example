@@ -2,33 +2,32 @@
 
 namespace App\Controller;
 
+use App\Model\Soul;
 use Wind\Web\Controller;
 use Wind\Db\Db;
 use Wind\View\ViewInterface;
 
 use function Amp\async;
-use function Amp\await;
+use function Amp\Future\await;
 
 class DbController extends Controller
 {
 
     public function soul(ViewInterface $view)
     {
-        $count = Db::table('soul')->count();
-        $offset = mt_rand(0, $count-1);
-        $row = Db::table('soul')->limit(1, $offset)->fetchOne();
+        $soul = Soul::random();
 
-        if ($row) {
-            Db::table('soul')->where(['id' => $row['id']])->update(['^hits'=>'hits+1']);
-            return $view->render('soul.twig', ['title'=>$row['title']]);
+        if ($soul) {
+            $soul->increment('hits');
+            return $view->render('soul.twig', ['title'=>$soul->title]);
         } else {
             return "今天不丧。";
         }
     }
 
-    public function soulFind($id)
+    public function soulFind(string $id)
     {
-        $row = Db::table('soul')->where(['id' => $id])->fetchOne();
+        $row = Soul::find($id);
 
         if ($row) {
             return $row;
@@ -39,7 +38,7 @@ class DbController extends Controller
 
     public function souls()
     {
-        $souls = Db::table('soul')->limit(10)->fetchAll();
+        $souls = Soul::query()->limit(10)->fetchAll();
         return $souls;
     }
 

@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Model\Post;
+use App\Model\Post2;
 use App\Model\Soul;
+use Illuminate\Support\Facades\DB as FacadesDB;
 use Wind\Web\Controller;
 use Wind\Db\Db;
 use Wind\View\ViewInterface;
@@ -47,7 +50,7 @@ class DbController extends Controller
      *
      * /db/concurrent
      *
-     * @return void
+     * @return string
      */
     public function concurrent()
     {
@@ -61,6 +64,28 @@ class DbController extends Controller
         $used = microtime(true) - $begin;
 
         return "concurrent($used)";
+    }
+
+    public function post($id)
+    {
+        $post = Post::find($id);
+
+        if ($post) {
+            $post->increment('views');
+        }
+
+        return $post;
+    }
+
+    public function postByEloquent($id)
+    {
+        $post = Post2::query()->where('id', $id)->with('soul')->first();
+
+        if ($post !== null) {
+            $post->increment('views');
+        }
+
+        return $post;
     }
 
 }

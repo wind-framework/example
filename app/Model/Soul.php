@@ -12,7 +12,7 @@ use Wind\Db\Model;
 class Soul extends Model
 {
 
-    const TABLE = 'soul';
+    protected $table = 'soul';
 
     public function getNameText()
     {

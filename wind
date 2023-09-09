@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+use Wind\Console\Console;
+
+require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/bootstrap/bootstrap.php';
+
+if (!class_exists(Console::class)) {
+    echo "You need install wind-framework/console to use console commands.\n";
+    exit(255);
+}
+
+Console::run();

@@ -24,6 +24,8 @@ return [
             'get /soul/{id:\d+}' => 'DbController::soulFind',
             'get /souls' => 'DbController::souls',
             'get /db/concurrent' => 'DbController::concurrent',
+            'get /db/post/{id:\d+}' => 'DbController::post',
+            'get /db/post2/{id:\d+}' => 'DbController::postByEloquent',
             'get /sleep' => 'IndexController::sleep',
             'get /block' => 'IndexController::block',
             'get /exception' => 'IndexController::exception',

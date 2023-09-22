@@ -8,10 +8,11 @@
         "wind-framework/queue": "1.0.x-dev",
         "wind-framework/redis": "1.0.x-dev",
         "wind-framework/view": "1.0.x-dev",
-        "amphp/http-client": "v5.x-dev",
+        "amphp/http-client": "^5.0",
         "wind-framework/web": "1.0.x-dev",
         "pader/phpinfo-cli-parser": "^1.0",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "wind-framework/console": "1.0.x-dev"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -87,6 +88,20 @@
         {
             "type": "path",
             "url": "../web",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../eloquent",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../console",
             "options": {
                 "symlink": true
             }

@@ -1,5 +1,5 @@
 <?php
-//Global Config
+//Console Config
 return [
     'command' => [
         'scan_ns_paths' => [
